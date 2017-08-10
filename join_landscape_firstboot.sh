@@ -19,7 +19,7 @@ ISHOSTBASE=$(hostname)
 CONFFILE="/etc/landscape/client.conf"
 
 if [[ ${ISHOSTBASE,,} = *base* ]]; then
-        exit 0
+        exit 1
 
 elif [ -e $CONFFILE ] && [ -e $ISINSTALLED ]; then
         cat /dev/null > $CONFFILE

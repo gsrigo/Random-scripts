@@ -4,6 +4,8 @@
 
 landscape_config(){
 
+#Chanage tag accordingly!!!
+
 /usr/bin/landscape-config --silent \
 --computer-title "$(hostname)" \
 --ssl-public-key=/etc/ssl/certs/landscape_key.pem \
@@ -11,7 +13,7 @@ landscape_config(){
 --script-users=ALL \
 --url https://apl-landscape.jhuapl.edu/message-system \
 --ping-url http://apl-landscape.jhuapl.edu/ping \
---tags=xenial16
+--tags=generic
 }
 
 ISINSTALLED="/usr/bin/landscape-client"

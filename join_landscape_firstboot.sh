@@ -7,7 +7,23 @@ ISINSTALLED="/usr/bin/landscape-client"
 ISHOSTBASE=$(hostname)
 CONFFILE="/etc/landscape/client.conf"
 
+
+release_check(){
+        if [[ $(lsb_release -sc) == 'xenial' ]]; then
+                echo "xenial16"
+
+        elif [[ $(lsb_release -sc) == 'trusty' ]]; then
+                echo "trusty14"
+
+        else
+                lsb_release -sc
+
+        fi
+}
+
+
 landscape_config(){
+
 
         /usr/bin/landscape-config --silent \
         --computer-title "$(hostname)" \
@@ -16,13 +32,13 @@ landscape_config(){
         --script-users=ALL \
         --url https://apl-landscape.jhuapl.edu/message-system \
         --ping-url http://apl-landscape.jhuapl.edu/ping \
-        --tags=xenial16,dev
+        --tags=$(release_check)
 }
 
 remove_script(){
         if [ $? -eq 0 ]; then
-                update-rc.d -f aplfirstboot remove
-                rm -f /etc/init.d/aplfirstboot
+                update-rc.d -f aplfirstboot remove &>/dev/null
+                rm -f /etc/init.d/aplfirstboot &>/dev/null
         else
                 echo "Landscape client package could not be installed" > /tmp/landscape_error
                 exit 1
@@ -30,6 +46,7 @@ remove_script(){
 }
 
 
+#Main processing
 if [[ ${ISHOSTBASE,,} = *base* ]]; then
         exit 1
 
@@ -41,6 +58,6 @@ elif [ -e $CONFFILE ] && [ -e $ISINSTALLED ]; then
 else
         apt update
         apt -y install landscape-client
-	landscape_config
+        landscape_config
         remove_script
 fi

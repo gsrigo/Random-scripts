@@ -14,10 +14,15 @@ release_check(){
 
         elif [[ $(lsb_release -sc) == 'trusty' ]]; then
                 echo "trusty14"
+         
+        elif [[ $(lsb_release -sc) == 'artful' ]]; then
+                echo "artful17_10"
+        
+        elif [[ $(lsb_release -sc) == 'zesty' ]]; then
+                echo "zesty17"
 
         else
                 lsb_release -sc
-
         fi
 }
 

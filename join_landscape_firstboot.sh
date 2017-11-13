@@ -52,7 +52,7 @@ remove_script(){
 
 
 #Main processing
-if [[ ${ISHOSTBASE,,} = *base* ]]; then
+if [[ ${ISHOSTBASE,,} = base* ]]; then
         exit 1
 
 elif [ -e $CONFFILE ] && [ -e $ISINSTALLED ]; then

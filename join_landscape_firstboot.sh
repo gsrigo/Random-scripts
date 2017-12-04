@@ -26,6 +26,15 @@ release_check(){
         fi
 }
 
+download_keys(){
+	echo "CHecking if security keys exist..."
+	if [ -e /etc/ssl/certs/landscape_key.pem ]; then
+		echo "keys already on system"
+	else
+		echo "Downloading the security keys..."
+		wget ftp://apl-landscape/pub/landscape_key.pem -P /etc/ssl/certs/
+	fi
+}
 
 landscape_config(){
 
@@ -41,6 +50,7 @@ landscape_config(){
 }
 
 remove_script(){
+#this function is only for Cloud systems, uncommne the fucntion name through the script when isntalling it on APL cloud systems
         if [ $? -eq 0 ]; then
                 update-rc.d -f aplfirstboot remove &>/dev/null
                 rm -f /etc/init.d/aplfirstboot &>/dev/null
@@ -52,17 +62,19 @@ remove_script(){
 
 
 #Main processing
-if [[ ${ISHOSTBASE,,} = base* ]]; then
+if [[ ${ISHOSTBASE,,} = *base* ]]; then
         exit 1
 
 elif [ -e $CONFFILE ] && [ -e $ISINSTALLED ]; then
+	download_keys
         cat /dev/null > $CONFFILE
         landscape_config
-        remove_script
+#        remove_script
 
 else
         apt update
         apt -y install landscape-client
+	download_keys
         landscape_config
-        remove_script
+#        remove_script
 fi

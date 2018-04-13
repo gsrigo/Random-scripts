@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
 #This script is to creater reminders.
+#add this to your bashrc file with an alias, for example:
+#alias reminder="/usr/local/scripts/reminder.sh"
+
 
 echo "You are about to create a reminder"
 read -p "What do you want to be reminded about? " reminder
